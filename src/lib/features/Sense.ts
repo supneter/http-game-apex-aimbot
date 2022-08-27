@@ -14,7 +14,7 @@ export class Sense {
     }
   }
 
-  resetPlayers(localPlayer: app.core.Player, players: Iterable<app.core.Player>) {
+  resetPlayers(levelName: string, localPlayer: app.core.Player, players: Iterable<app.core.Player>) {
     for (const player of players) {
       if (player.isValid && !player.isSameTeam(localPlayer)) {
         if (this.inRange(localPlayer, player.localOrigin)) {
@@ -37,7 +37,7 @@ export class Sense {
     }
   }
   
-  updatePlayers(localPlayer: app.core.Player, players: Iterable<app.core.Player>) {
+  updatePlayers(levelName: string, localPlayer: app.core.Player, players: Iterable<app.core.Player>) {
     for (const player of players) {
       if (player.isValid && !player.isSameTeam(localPlayer)) {
         if (this.inRange(localPlayer, player.localOrigin)) {
@@ -49,6 +49,7 @@ export class Sense {
         }
       }
     }
+    aimbot.updateStates(levelName, localPlayer, players);
   }
 
   private inRange(localPlayer: app.core.Player, origin: app.core.Vector) {

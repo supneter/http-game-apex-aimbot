@@ -9,6 +9,8 @@ export const language = {
   generalSense: 'Sense',
   generalSenseItems: 'Highlight Items',
   generalSensePlayers: 'Highlight Players',
+  generalAimbot: 'Aimbot',
+  generalAimbotPlayers: 'Activate Aimbot',
   generalViewType: 'Main',
   generalViewTypeMap: 'Show Map',
   generalViewTypeRadar: 'Show Radar'

@@ -7,7 +7,8 @@ export class Runner {
     private readonly map = new app.features.Map(canvas),
     private readonly radar = new app.features.Radar(canvas),
     private readonly recoil = new app.features.Recoil(),
-    private readonly sense = new app.features.Sense()) {}
+    private readonly sense = new app.features.Sense(),
+    private readonly aimbot = new app.features.Aimbot(),) {}
   
   static create() {
     const source = new Runner();
@@ -19,6 +20,7 @@ export class Runner {
     const localPlayer = core.playerList.get(core.localPlayer.value);
     this.updateResearch(core, vm, localPlayer);
     this.updateSense(core, vm, localPlayer);
+    this.updateAimbot(core, vm, localPlayer);
     this.canvas.height = window.innerHeight;
     this.canvas.width = window.innerWidth;
     this.update(core, vm, localPlayer);
@@ -76,6 +78,13 @@ export class Runner {
     if (localPlayer) {
       itemsFn(localPlayer, core.itemList.values(), vm.settings.itemSet);
       playersFn(localPlayer, core.playerList.values());
+    }
+  }
+
+  private updateAimbot(core: app.core.Core, vm: ui.MainViewModel, localPlayer?: app.core.Player) {
+    let aimbot_enabled = vm.settings.general.aimbot.aimbotEnable.value;
+    if (localPlayer && aimbot_enabled) {
+      this.aimbot.updateStates(core.levelName.value, localPlayer, core.playerList.values());
     }
   }
 }

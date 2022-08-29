@@ -14,5 +14,4 @@ export const language = {
   generalViewType: 'Main',
   generalViewTypeMap: 'Show Map',
   generalViewTypeRadar: 'Show Radar',
-  generalViewTypeAimbot: 'Show Aimbot'
 };

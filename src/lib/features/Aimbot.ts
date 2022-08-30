@@ -11,9 +11,7 @@ export class Aimbot {
     const enemyDistance = this.calcDistance(localPlayer, closestEnemyPlayer);
     let maxAngleDeltaRange;
     let smoothingDivisor;
-    if(enemyDistance <= 20)
-      return;
-    else if (enemyDistance <= 200) {//200-400 is pretty much only close range
+    if (enemyDistance <= 200) {//200-400 is pretty much only close range
       maxAngleDeltaRange = 50;
       smoothingDivisor = 1;
     }

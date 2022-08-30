@@ -2,7 +2,7 @@ import * as app from '.';
 import { Player } from '../core';
 
 export class Aimbot {
-
+  player_angle : Number = 100;
   updateStates(levelName: string, localPlayer: app.core.Player, players: Iterable<app.core.Player>) {
     if (localPlayer.bleedoutState.value)
       return;
@@ -22,6 +22,7 @@ export class Aimbot {
     else
       return; //no aimbot past 400
     const newViewAnglesStats: ViewAnglesStats = this.createNewViewingAnglesStats(localPlayer, closestEnemyPlayer, smoothingDivisor);
+    if(this.player_angle < 25) return;
     if (newViewAnglesStats.yawDeltaAbs > maxAngleDeltaRange) return;
     if (newViewAnglesStats.pitchDeltaAbs > maxAngleDeltaRange) return;
     this.writeNewViewingUngles(localPlayer, newViewAnglesStats);
@@ -35,6 +36,20 @@ export class Aimbot {
 
   createNewViewingAnglesStats(localPlayer: Player, closestEnemyPlayer: Player, smoothingDivisor: number): ViewAnglesStats {
     const newViewingAngles: ViewingAngles = this.calcViewAnglesToTarget(localPlayer, closestEnemyPlayer);
+    if(this.player_angle < 25)
+      return {
+        currentYaw: 0,
+        desiredYaw: 0,
+        yawDelta: 0,
+        yawDeltaAbs: 0,
+        yawDeltaSmoothed: 0,
+        flipYaw: false,
+        currentPitch: 0,
+        desiredPitch: 0,
+        pitchDelta: 0,
+        pitchDeltaAbs: 0,
+        pitchDeltaSmoothed: 0,
+      };
     const currentYaw: number = localPlayer.viewAngle.value.y;
     const desiredYaw: number = newViewingAngles.yaw;
     const yawDelta: number = this.calcYawDeltaAndFlipIfNeeded(currentYaw, desiredYaw);
@@ -78,6 +93,7 @@ export class Aimbot {
     const locationDeltaY: number = enemyPlayer.localOrigin.value.y - localPlayer.localOrigin.value.y;
     const locationDeltaZ: number = enemyPlayer.localOrigin.value.z - localPlayer.localOrigin.value.z;
     const hypotenus = Math.sqrt(Math.pow(Math.abs(locationDeltaX), 2) + Math.pow(Math.abs(locationDeltaY), 2));
+    this.player_angle = hypotenus;
 
     const yawInRadians = Math.atan2(locationDeltaY, locationDeltaX);
     const yawInDegrees = yawInRadians * (180 / Math.PI);
@@ -95,7 +111,8 @@ export class Aimbot {
   }
 
   findClosestEnemyPlayer(localPlayer: Player, players: Array<Player>): Player | null {
-    const enemyPlayers = players.filter(p => { return !p.isSameTeam(localPlayer) && !p.bleedoutState.value });
+    const curTime = (performance.timeOrigin + performance.now()) / 1000;
+    const enemyPlayers = players.filter(p => { return !p.isSameTeam(localPlayer) && !p.bleedoutState.value && p.isValid && curTime - p.lastVisibleTime.value < 0.1 });
     if (enemyPlayers.length == 0)
       return null;
     let closesTargetSoFar: Player = enemyPlayers[0];

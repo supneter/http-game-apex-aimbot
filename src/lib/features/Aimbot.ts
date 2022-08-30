@@ -111,8 +111,8 @@ export class Aimbot {
   }
 
   findClosestEnemyPlayer(localPlayer: Player, players: Array<Player>): Player | null {
-    const curTime = (performance.timeOrigin + performance.now()) / 1000;
-    const enemyPlayers = players.filter(p => { return !p.isSameTeam(localPlayer) && !p.bleedoutState.value && p.isValid && curTime - p.lastVisibleTime.value < 0.1 });
+    // const curTime = (performance.timeOrigin + performance.now()) / 1000;
+    const enemyPlayers = players.filter(p => { return !p.isSameTeam(localPlayer) && !p.bleedoutState.value && p.isValid });
     if (enemyPlayers.length == 0)
       return null;
     let closesTargetSoFar: Player = enemyPlayers[0];

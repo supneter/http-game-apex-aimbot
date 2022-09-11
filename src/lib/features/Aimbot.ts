@@ -11,7 +11,7 @@ export class Aimbot {
     const enemyDistance = this.calcDistance(localPlayer, closestEnemyPlayer);
     let maxAngleDeltaRange;
     let smoothingDivisor;
-    if (enemyDistance <= 659) {//200-400 is pretty much only close range
+    if (enemyDistance <= 600) {//200-400 is pretty much only close range
       maxAngleDeltaRange = 9;
       smoothingDivisor = 1;
     }
@@ -26,6 +26,16 @@ export class Aimbot {
   }
 
   writeNewViewingUngles(localPlayer: Player, newViewAnglesStats: ViewAnglesStats) {
+   
+ 
+  // If the player was never visible the value is -1
+  if(!(Player.lastVisibleTime > last_vis_time_flt || Player.lastVisibleTime < 0.f && last_vis_time_flt > 0.f))
+ return;
+    
+    const last_vis_time_flt: number = Player.lastVisibleTime;
+
+ 
+  return 
     let nowAnglesValues = localPlayer.viewAngle.value;
     let newViewAnglesValues = new app.core.VectorData(nowAnglesValues.x - newViewAnglesStats.pitchDeltaSmoothed, nowAnglesValues.y - newViewAnglesStats.yawDeltaSmoothed, nowAnglesValues.z)
     localPlayer.viewAngle.value = newViewAnglesValues; // cause update event

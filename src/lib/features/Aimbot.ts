@@ -6,6 +6,13 @@ export class Aimbot {
   updateStates(levelName: string, localPlayer: app.core.Player, players: Iterable<app.core.Player>) {
     if (localPlayer.bleedoutState.value)
       return;
+    const last_vis_time_flt: number;
+    if(Player.lastVisibleTime > last_vis_time_flt || Player.lastVisibleTime < 0.f && last_vis_time_flt > 0.f))
+         let x;
+    else
+      return;
+     last_vis_time_flt = Player.lastVisibleTime;
+
     const closestEnemyPlayer = (levelName == "mp_rr_canyonlands_staging") ? this.createDummyPLayer() : this.findClosestEnemyPlayer(localPlayer, Array.from(players));
     if (closestEnemyPlayer == null) return;
     const enemyDistance = this.calcDistance(localPlayer, closestEnemyPlayer);
@@ -29,10 +36,7 @@ export class Aimbot {
    
  
   // If the player was never visible the value is -1
-  if(!(Player.lastVisibleTime > last_vis_time_flt || Player.lastVisibleTime < 0.f && last_vis_time_flt > 0.f))
- return;
-    
-    const last_vis_time_flt: number = Player.lastVisibleTime;
+  
 
  
   return 

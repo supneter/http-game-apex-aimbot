@@ -26,7 +26,7 @@ export class Player extends app.api.Adapter<app.api.Entity> {
   createColor(otherPlayer: app.Player) {
     return this.isSameTeam(otherPlayer)
       ? (this.bleedoutState.value ? '#FFFF00' : '#00FF00')
-      : (this.bleedoutState.value ? '#FFA500' : '#FF0000');
+      : (this.bleedoutState.value ? '#FFA500' : '#0000FF');
   }
 
   isSameTeam(otherPlayer: app.Player) {

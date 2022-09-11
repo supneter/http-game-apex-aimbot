@@ -4,7 +4,7 @@ export class Sense {
   constructor(
     private readonly itemDefault = new app.core.GlowData(0, 110, 225, 25, true, false),
     private readonly itemHighlight = new app.core.GlowData(137, 108, 64, 0, true, false),
-    private readonly maximumDistance = 200) {}
+    private readonly maximumDistance = 310) {}
 
   resetItems(_: app.core.Player, items: Iterable<app.core.Item>) {
     for (const item of items) {
